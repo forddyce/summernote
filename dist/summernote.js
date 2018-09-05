@@ -8,9 +8,9 @@
  * Date: 2018-02-20T00:34Z
  */
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
-	typeof define === 'function' && define.amd ? define(['jquery'], factory) :
-	(factory(global.jQuery));
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
+    typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+    (factory(global.jQuery));
 }(this, (function ($$1) { 'use strict';
 
 $$1 = $$1 && $$1.hasOwnProperty('default') ? $$1['default'] : $$1;
@@ -6376,6 +6376,10 @@ var VideoDialog = /** @class */ (function () {
         var webmRegExp = /^.+.(webm)$/;
         var webmMatch = url.match(webmRegExp);
         var $video;
+
+        var fbRegExp = /^https?:\/\/(www\.)?facebook.com\/(.[a-zA-Z0-9]*)\/videos\/(.[a-zA-Z0-9]*)\//;
+        var fbMatch = url.match(fbRegExp);
+
         if (ytMatch && ytMatch[1].length === 11) {
             var youtubeId = ytMatch[1];
             $video = $$1('<iframe>')
@@ -6429,6 +6433,16 @@ var VideoDialog = /** @class */ (function () {
             $video = $$1('<video controls>')
                 .attr('src', url)
                 .attr('width', '640').attr('height', '360');
+        }
+        else if (fbMatch && fbMatch[3].length) {
+            $video = $$1('<iframe>')
+            .attr('src', 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' + fbMatch[2] + '%2Fvideos%2F' + fbMatch[3] + '%2F&show_text=0')
+            .attr('style', 'border:none;overflow:hidden')
+            .attr('width', '476').attr('height', '476')
+            .attr('scrolling', 'no')
+            .attr('frameborder', '0')
+            .attr('allowfullscreen', 'true')
+            .attr('allowtransparency', 'true');
         }
         else {
             // this is not a known video link. Now what, Cat? Now what?
